@@ -4,7 +4,7 @@ from utils.timer import Timer
 import pandas as pd
 
 
-def run_sqlalchemy_pandas_with_url(conn_str, query):
+def run_sqlalchemy_pandas_read_sql_query_with_url(conn_str, query):
     url = URL.create("mssql+pyodbc", query={"odbc_connect": conn_str})
     engine = create_engine(url)
     with Timer() as t:

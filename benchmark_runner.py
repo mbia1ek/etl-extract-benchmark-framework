@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 from utils.resource_monitor import ResourceMonitor
 from methods import (
-    pandas_readsql,
+    pyodbc_pandas_read_sql_query,
     pandas_readsql_duckdb_offload,
     pyodbc_fetchall_polars_offload,
     pyodbc_fetchall,
@@ -14,7 +14,7 @@ from methods import (
     csv_exporter,
     parquet_exporter,
     sqlalchemy_core_fetchall,
-    sqlalchemy_pandas_read,
+    sqlalchemy_pandas_read_sql_query,
 )
 
 import warnings
@@ -23,7 +23,7 @@ warnings.filterwarnings("ignore", category=UserWarning, message="pandas only sup
 
 
 method_map = {
-    'pandas_readsql': pandas_readsql.run_pandas_readsql,
+    'pyodbc_pandas_read_sql_query': pyodbc_pandas_read_sql_query.run_pyodbc_pandas_read_sql_query,
     'pyodbc_fetchall': pyodbc_fetchall.run_pyodbc_fetchall,
     'pyodbc_fetchmany': lambda conn, q: pyodbc_fetchmany.run_pyodbc_fetchmany(conn, q, batch_size=1000),
     'pyodbc_fetchone': pyodbc_fetchone.run_pyodbc_fetchone,
@@ -35,10 +35,10 @@ method_map = {
     'csv_exporter': lambda conn, q: csv_exporter.run_csv_export(conn, q, "results/csv_output.csv"),
     'parquet_exporter': lambda conn, q: parquet_exporter.run_parquet_export(conn, q, "results/parquet_output.parquet"),
     'sqlalchemy_core_fetchall': lambda conn, q: sqlalchemy_core_fetchall.run_sqlalchemy_core_fetchall(conn, q),
-    'sqlalchemy_pandas_read': lambda conn, q: sqlalchemy_pandas_read.run_sqlalchemy_pandas_with_url(conn, q),
+    'sqlalchemy_pandas_read_sql_query': lambda conn, q: sqlalchemy_pandas_read_sql_query.run_sqlalchemy_pandas_read_sql_query_with_url(conn, q),
 }
 
-with open('config.yaml', 'r') as f:
+with open('extract_methods_mssql.yaml', 'r') as f:  # extract_methods_mssql
     config = yaml.safe_load(f)
 
 sample_order = config.get('sample_order', 'serial')
