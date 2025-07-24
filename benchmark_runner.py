@@ -8,12 +8,16 @@ from methods import (
     pandas_readsql_duckdb_offload,
     pyodbc_fetchall_polars_offload,
     pyodbc_fetchall,
+    pyodbc_fetchall_to_df,
     pyodbc_fetchmany,
+    pyodbc_fetchmany_to_df,
     pyodbc_fetchone,
+    pyodbc_fetchone_to_df,
     bcp_export,
     csv_exporter,
     parquet_exporter,
     sqlalchemy_core_fetchall,
+    sqlalchemy_core_fetchall_to_df,
     sqlalchemy_pandas_read_sql_query,
 )
 
@@ -25,8 +29,11 @@ warnings.filterwarnings("ignore", category=UserWarning, message="pandas only sup
 method_map = {
     'pyodbc_pandas_read_sql_query': pyodbc_pandas_read_sql_query.run_pyodbc_pandas_read_sql_query,
     'pyodbc_fetchall': pyodbc_fetchall.run_pyodbc_fetchall,
+    'pyodbc_fetchall_to_df': pyodbc_fetchall_to_df.run_pyodbc_fetchall_to_df,
     'pyodbc_fetchmany': lambda conn, q: pyodbc_fetchmany.run_pyodbc_fetchmany(conn, q, batch_size=1000),
+    'pyodbc_fetchmany_to_df': lambda conn, q: pyodbc_fetchmany_to_df.run_pyodbc_fetchmany_to_df(conn, q, batch_size=1000),
     'pyodbc_fetchone': pyodbc_fetchone.run_pyodbc_fetchone,
+    'pyodbc_fetchone_to_df': pyodbc_fetchone_to_df.run_pyodbc_fetchone_to_df,
     'bcp_export': lambda conn, q: bcp_export.run_bcp_export(conn, q, "results/bcp_output.bcp"),
     'pandas_readsql_duckdb_offload': lambda conn, q: pandas_readsql_duckdb_offload.run_pandas_readsql_duckdb_offload(
         conn, q, "results/duckdb_output.duckdb"
@@ -35,6 +42,7 @@ method_map = {
     'csv_exporter': lambda conn, q: csv_exporter.run_csv_export(conn, q, "results/csv_output.csv"),
     'parquet_exporter': lambda conn, q: parquet_exporter.run_parquet_export(conn, q, "results/parquet_output.parquet"),
     'sqlalchemy_core_fetchall': lambda conn, q: sqlalchemy_core_fetchall.run_sqlalchemy_core_fetchall(conn, q),
+    'sqlalchemy_core_fetchall_to_df': lambda conn, q: sqlalchemy_core_fetchall_to_df.run_sqlalchemy_core_fetchall_to_df(conn, q),
     'sqlalchemy_pandas_read_sql_query': lambda conn, q: sqlalchemy_pandas_read_sql_query.run_sqlalchemy_pandas_read_sql_query_with_url(conn, q),
 }
 
